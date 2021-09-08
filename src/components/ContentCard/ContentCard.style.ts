@@ -6,7 +6,8 @@ export const Card = styled.div`
 `
 
 export const CardWrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 200px 710px;
 `
 
 export const Link = styled.div`
@@ -16,4 +17,10 @@ export const Link = styled.div`
 export const ButtonLink = styled(RouterLink)`
   color: #fff;
   text-decoration: none;
+`
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `

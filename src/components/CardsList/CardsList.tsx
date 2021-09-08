@@ -5,6 +5,7 @@ import ContentCard from "../ContentCard"
 const CardsList: React.FC<CardsListProps> = ({
   searchItems,
   multipleValuesProperty,
+  fetchedFromDatabase,
 }) => {
   const list = searchItems.map((item: any) => {
     let artistsList: string[] = []
@@ -24,16 +25,16 @@ const CardsList: React.FC<CardsListProps> = ({
         title={item.name}
         subtitle={artistsList.join(", ") || genresList.join(", ")}
         image={
-          multipleValuesProperty === "artists"
-            ? item.album.images[0].url
+          fetchedFromDatabase
+            ? item.image
+            : multipleValuesProperty === "artists"
+            ? item.album.images[0]?.url
             : item.images[0]?.url
         }
         url={
-          multipleValuesProperty === "artists"
-            ? item.external_urls.spotify
-            : item.external_urls.spotify
+          fetchedFromDatabase ? item.linkToSpotify : item.external_urls.spotify
         }
-        content={multipleValuesProperty === "artists" ? "song" : "artist"}
+        content={multipleValuesProperty === "artists" ? "track" : "artist"}
         {...item}
       />
     )

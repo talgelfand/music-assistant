@@ -1,11 +1,14 @@
 import React, { useEffect } from "react"
 import RedirectProps from "./RedirectPage.types"
 import { getParamValues } from "../../utils/functions"
+import { setUser } from "../../redux/actions"
+import { connect } from "react-redux"
 
 const RedirectPage: React.FC<RedirectProps> = ({
   setExpiryTime,
   history,
   location,
+  setUser,
 }) => {
   useEffect(() => {
     try {
@@ -21,6 +24,8 @@ const RedirectPage: React.FC<RedirectProps> = ({
       localStorage.setItem("params", JSON.stringify(access_token))
       localStorage.setItem("expiry_time", expiryTime.toString())
 
+      setUser()
+
       setExpiryTime(expiryTime)
       history.push("/dashboard")
     } catch (error) {
@@ -31,4 +36,12 @@ const RedirectPage: React.FC<RedirectProps> = ({
   return null
 }
 
-export default RedirectPage
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setUser: () => {
+      dispatch(setUser())
+    },
+  }
+}
+
+export default connect(mapDispatchToProps)(RedirectPage)

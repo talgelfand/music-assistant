@@ -16,9 +16,9 @@ const Menu: React.FC<MenuProps> = () => {
     <>
       <Paper className={classes.root}>
         <Tabs textColor="primary" indicatorColor="primary" centered>
-          <Tab label={<Link to="/songs-explorer">Analyse a song</Link>}></Tab>
+          <Tab label={<Link to="/tracks-explorer">Analyse a track</Link>} />
           <Tab label={<Link to="/artists-explorer">Explore an artist</Link>} />
-          <Tab label={<Link to="/songs-explorer">Create a playlist</Link>} />
+          <Tab label={<Link to="/my-playlists">Create a playlist</Link>} />
         </Tabs>
       </Paper>
     </>

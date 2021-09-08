@@ -1,7 +1,3 @@
-import { ReactNode } from "react"
+interface NavbarProps {}
 
-interface NavLinkProps {
-  children: ReactNode
-}
-
-export default NavLinkProps
+export default NavbarProps

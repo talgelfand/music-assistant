@@ -5,6 +5,11 @@ import { Box, Heading, Text, Link } from "@chakra-ui/layout"
 import { Image } from "@chakra-ui/image"
 import { Button } from "@chakra-ui/button"
 import NoImage from "./no-image.jpeg"
+import { IconButton, useDisclosure } from "@chakra-ui/react"
+import DataModal from "../DataModal"
+import { connect } from "react-redux"
+import { setTrack } from "../../redux/actions"
+import { TriangleUpIcon } from "@chakra-ui/icons"
 
 const ContentCard: React.FC<ContentCardProps> = ({
   id,
@@ -13,10 +18,14 @@ const ContentCard: React.FC<ContentCardProps> = ({
   image,
   url,
   content,
+  currentTrack,
+  setTrack,
 }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <Styled.Card>
-      <Box key={id} borderWidth="1px" borderRadius="lg" height="200px">
+      <Box borderWidth="1px" borderRadius="lg" height="200px">
         <Styled.CardWrapper>
           <Image
             src={image || NoImage}
@@ -35,23 +44,44 @@ const ContentCard: React.FC<ContentCardProps> = ({
                 Listen on Spotify
               </Link>
             </Styled.Link>
-            {content === "song" ? (
-              <Button
-                colorScheme="blue"
-                text="Analyse song"
-                marginTop="20px"
-                children={
-                  <Styled.ButtonLink to={`${subtitle}/${title}/${id}`}>
-                    Get data
-                  </Styled.ButtonLink>
-                }
-              />
+            {content === "track" ? (
+              <Styled.ButtonsWrapper>
+                <Button onClick={onOpen} colorScheme="blue" marginTop="20px">
+                  Analyse track
+                </Button>
+                <IconButton
+                  aria-label="Play track"
+                  icon={<TriangleUpIcon transform="rotate(90deg)" />}
+                  onClick={() => setTrack(id)}
+                />
+              </Styled.ButtonsWrapper>
             ) : null}
           </Box>
         </Styled.CardWrapper>
       </Box>
+      <DataModal
+        trackId={id}
+        artist={subtitle}
+        name={title}
+        openCheck={isOpen}
+        closeEvent={onClose}
+      />
     </Styled.Card>
   )
 }
 
-export default ContentCard
+const mapStateToProps = (state: any) => {
+  return {
+    currentTrack: state.currentTrack,
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setTrack: (id: any) => {
+      dispatch(setTrack(id))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContentCard)

@@ -1,10 +1,10 @@
 import React from "react"
 import { Redirect } from "react-router"
 import DashboardProps from "./Dashboard.types"
-import Navbar from "../../components/Navbar"
+import LinksList from "../../components/LinksList"
 
 const Dashboard: React.FC<DashboardProps> = ({ isValidSession }) => {
-  return <>{isValidSession() ? <></> : <Redirect to="/" />}</>
+  return <>{isValidSession() ? <LinksList /> : <Redirect to="/" />}</>
 }
 
 export default Dashboard

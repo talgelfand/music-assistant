@@ -4,7 +4,9 @@ interface ContentCardProps {
   subtitle: string
   image: string
   url: string
-  content: "song" | "artist"
+  content: "track" | "artist"
+  currentTrack: any
+  setTrack: Function
 }
 
 export default ContentCardProps

@@ -11,8 +11,10 @@ const ArtistsExplorer: React.FC = () => {
         placeholder="artists"
         searchTerm="artist"
         setData={setArtists}
+        result={
+          <CardsList searchItems={artists} multipleValuesProperty="genres" />
+        }
       />
-      <CardsList searchItems={artists} multipleValuesProperty="genres" />
     </>
   )
 }

@@ -2,10 +2,15 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 export const Navbar = styled.div`
-  padding: 20px 100px 20px 100px;
+  height: 80px;
+  padding: 10px 100px 10px 100px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+`
+
+export const PlayerContainer = styled.div`
+  width: 400px;
 `
 
 export const StyledLink = styled(Link)`

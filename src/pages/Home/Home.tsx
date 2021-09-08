@@ -13,8 +13,13 @@ const Home: React.FC<HomeProps> = ({ isValidSession }) => {
     REACT_APP_REDIRECT_URL,
   } = process.env
 
+  const scope =
+    "streaming user-read-private user-read-email user-library-read user-library-modify playlist-modify-private playlist-read-private user-read-playback-state user-modify-playback-state"
+
   const handleLogin = () => {
-    window.location.href = `${REACT_APP_AUTHORIZE_URL}?client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${REACT_APP_REDIRECT_URL}&response_type=token&show_dialog=true`
+    window.location.href = `${REACT_APP_AUTHORIZE_URL}?client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${REACT_APP_REDIRECT_URL}&response_type=token&show_dialog=true&scope=${encodeURIComponent(
+      scope
+    )}`
   }
 
   return (
@@ -24,7 +29,7 @@ const Home: React.FC<HomeProps> = ({ isValidSession }) => {
       ) : (
         <>
           <Typography variant="h3" align="center"></Typography>
-          <Heading fontSize="40px" textAlign="center" marginTop="50px">
+          <Heading fontSize="40px" textAlign="center" marginTop="150px">
             Welcome to your Music Assistant
           </Heading>
           <Button

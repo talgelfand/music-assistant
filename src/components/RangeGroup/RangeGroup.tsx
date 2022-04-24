@@ -1,8 +1,8 @@
-import React from "react"
-import RangeGroupProps from "./RangeGroup.types"
-import * as Styled from "./RangeGroup.style"
-import { Progress } from "@chakra-ui/progress"
-import { Text } from "@chakra-ui/layout"
+import React from 'react'
+import { RangeGroupProps } from './RangeGroup.types'
+import * as Styled from './RangeGroup.style'
+import { Progress } from '@chakra-ui/progress'
+import { Text } from '@chakra-ui/layout'
 
 const RangeGroup: React.FC<RangeGroupProps> = ({ danceability, energy }) => {
   return (

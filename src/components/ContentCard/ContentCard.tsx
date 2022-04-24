@@ -1,15 +1,15 @@
-import React from "react"
-import * as Styled from "./ContentCard.style"
-import ContentCardProps from "./ContentCard.types"
-import { Box, Heading, Text, Link } from "@chakra-ui/layout"
-import { Image } from "@chakra-ui/image"
-import { Button } from "@chakra-ui/button"
-import NoImage from "./no-image.jpeg"
-import { IconButton, useDisclosure } from "@chakra-ui/react"
-import DataModal from "../DataModal"
-import { connect } from "react-redux"
-import { setTrack } from "../../redux/actions"
-import { TriangleUpIcon } from "@chakra-ui/icons"
+import React from 'react'
+import * as Styled from './ContentCard.style'
+import { ContentCardProps } from './ContentCard.types'
+import { Box, Heading, Text, Link } from '@chakra-ui/layout'
+import { Image } from '@chakra-ui/image'
+import { Button } from '@chakra-ui/button'
+import NoImage from './no-image.jpeg'
+import { IconButton, useDisclosure } from '@chakra-ui/react'
+import DataModal from '../DataModal'
+import { connect } from 'react-redux'
+import { setTrack } from '../../redux/actions'
+import { TriangleUpIcon } from '@chakra-ui/icons'
 
 const ContentCard: React.FC<ContentCardProps> = ({
   id,
@@ -32,7 +32,6 @@ const ContentCard: React.FC<ContentCardProps> = ({
             alt={title}
             boxSize="200px"
             objectFit="cover"
-            marginRight="20px"
           />
           <Box padding="20px">
             <Heading as="h5" size="md">
@@ -44,7 +43,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
                 Listen on Spotify
               </Link>
             </Styled.Link>
-            {content === "track" ? (
+            {content === 'track' ? (
               <Styled.ButtonsWrapper>
                 <Button onClick={onOpen} colorScheme="blue" marginTop="20px">
                   Analyse track
@@ -78,7 +77,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setTrack: (id: any) => {
+    setTrack: (id: string) => {
       dispatch(setTrack(id))
     },
   }

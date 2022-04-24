@@ -1,23 +1,36 @@
-import React, { ReactNode } from "react"
-import { Heading, LinkBox, LinkOverlay, Text } from "@chakra-ui/react"
-import * as Styled from "./LinksList.style"
-import { ArrowForwardIcon } from "@chakra-ui/icons"
+import React, { ReactNode } from 'react'
+import { Heading, LinkBox, Text } from '@chakra-ui/react'
+import * as Styled from './LinksList.style'
+import { ArrowForwardIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom'
 
 const LinksList = () => {
   const linksData = {
-    titles: ["Favourite tracks", "Favourite artists", "My playlists"],
+    titles: [
+      'Analyse a track',
+      'Explore an artist',
+      'Generate a playlist',
+      'My playlists',
+    ],
     descriptions: [
-      "View the list of your favourite tracks",
-      "View the list of your most preferred artists",
-      "Explore the playlists you have created",
+      'Get data about any track',
+      'Search for artists',
+      'Automatically generate a playlist based on your preferences',
+      'Explore the playlists you have created',
+    ],
+    links: [
+      'tracks-explorer',
+      'artists-explorer',
+      'playlist-generator',
+      'my-playlists',
     ],
   }
 
   const linksList: ReactNode[] = []
 
-  for (let i = 0; i < linksData.titles.length; i++) {
+  linksData.titles.forEach((title, index) => {
     linksList.push(
-      <Styled.Item>
+      <Styled.Item key={index}>
         <LinkBox
           width="md"
           p="5"
@@ -32,14 +45,14 @@ const LinksList = () => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <LinkOverlay href="#">{linksData.titles[i]}</LinkOverlay>
+            <Link to={linksData.links[index]}>{linksData.titles[index]}</Link>
             <ArrowForwardIcon color="teal" />
           </Heading>
-          <Text>{linksData.descriptions[i]}</Text>
+          <Text>{linksData.descriptions[index]}</Text>
         </LinkBox>
       </Styled.Item>
     )
-  }
+  })
 
   return <Styled.List>{linksList}</Styled.List>
 }

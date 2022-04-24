@@ -1,81 +1,75 @@
-import React, { useState } from "react"
-import * as Styled from "./Playlists.style"
-import { Button, Heading, LinkBox, LinkOverlay } from "@chakra-ui/react"
-import { DeleteIcon } from "@chakra-ui/icons"
-import { connect } from "react-redux"
-import { Link } from "react-router-dom"
-import { fetchData, postData } from "../../utils/api"
-import { useToast } from "@chakra-ui/react"
-import { database } from "../../firebase"
-import { useEffect } from "react"
+import React, { useState } from 'react'
+import * as Styled from './Playlists.style'
+import { Button, Heading, LinkBox, LinkOverlay } from '@chakra-ui/react'
+import { DeleteIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
+import { database } from '../../firebase'
+import { useEffect } from 'react'
+import {
+  deletePlaylistFromDatabase,
+  savePlaylistToSpotify,
+} from '../../helpers'
+import LoadingSpinner from '../LoadingSpinner'
 
-export interface PlaylistsProps {
-  playlists: any
-}
-
-const Playlists: React.FC<PlaylistsProps> = ({ playlists }) => {
+const Playlists: React.FC = () => {
   const [playlistsFromDatabase, setPlaylistsFromDatabase] = useState([] as any)
-  const [isSaved, setIsSaved] = useState(false)
+  const [currentUser, setCurrentUser] = useState(
+    localStorage.getItem('current_user')!
+  )
+  const [loading, setLoading] = useState(true)
   const toast = useToast()
 
-  const getPlaylistsFromDatabase = () => {
+  useEffect(() => {
     database
-      .collection("users")
+      .collection('users')
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           setPlaylistsFromDatabase(doc.data().playlists)
         })
       })
+
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+  })
+
+  if (loading) return <LoadingSpinner />
+
+  if (playlistsFromDatabase.length === 0) {
+    return (
+      <Heading size="lg" textAlign="center" marginTop="100px">
+        You don't have any playlists yet
+      </Heading>
+    )
   }
 
-  useEffect(() => {
-    getPlaylistsFromDatabase()
-  }, [])
-
-  const linksList = playlistsFromDatabase.map((item: any) => {
+  const linksList = playlistsFromDatabase.map((item: any, index: number) => {
     const saveToSpotify = () => {
-      let tracksUris: string[] = []
-
-      item.playlist.forEach((track: any) => {
-        tracksUris.push(track.uri)
+      savePlaylistToSpotify(item)
+      toast({
+        title: 'Playlist added.',
+        description: 'The playlist is added to your Spotify account',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
       })
+    }
 
-      fetchData("https://api.spotify.com/v1/me").then((data) => {
-        postData(`https://api.spotify.com/v1/users/${data.id}/playlists`, {
-          name: item.playlists.name,
-          description: "",
-          public: false,
-        }).then(() => {
-          fetchData(`https://api.spotify.com/v1/me/playlists`).then(
-            (playlists) => {
-              playlists.items.forEach((playlist: any) => {
-                if (playlist.name === item.playlists.name) {
-                  postData(
-                    `https://api.spotify.com/v1/playlists/${
-                      playlist.id
-                    }/tracks?uris=${encodeURIComponent(tracksUris.join(","))}`
-                  )
-                }
-              })
-
-              setIsSaved(true)
-
-              toast({
-                title: "Playlist added.",
-                description: "The playlist is added to your Spotify account",
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-              })
-            }
-          )
-        })
+    const deletePlaylist = () => {
+      deletePlaylistFromDatabase(item, currentUser)
+      toast({
+        title: 'Playlist deleted.',
+        description: 'The playlist is deleted from your playlists list.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
       })
     }
 
     return (
-      <Styled.Item>
+      <Styled.Item key={index}>
         <LinkBox
           minWidth="xl"
           p="5"
@@ -98,11 +92,10 @@ const Playlists: React.FC<PlaylistsProps> = ({ playlists }) => {
                 colorScheme="blue"
                 marginRight="10px"
                 onClick={saveToSpotify}
-                disabled={isSaved}
               >
                 Save to Spotify
               </Button>
-              <Button>
+              <Button onClick={deletePlaylist}>
                 <DeleteIcon color="teal" />
               </Button>
             </Styled.Buttons>
@@ -115,10 +108,4 @@ const Playlists: React.FC<PlaylistsProps> = ({ playlists }) => {
   return <Styled.List>{linksList}</Styled.List>
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    playlists: state.playlists,
-  }
-}
-
-export default connect(mapStateToProps)(Playlists)
+export default Playlists

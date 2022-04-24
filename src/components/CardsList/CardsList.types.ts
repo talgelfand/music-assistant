@@ -1,7 +1,5 @@
-interface CardsListProps {
+export interface CardsListProps {
   searchItems: []
-  multipleValuesProperty: "artists" | "genres"
+  multipleValuesProperty: 'artists' | 'genres'
   fetchedFromDatabase?: boolean
 }
-
-export default CardsListProps

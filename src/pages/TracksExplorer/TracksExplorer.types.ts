@@ -1,5 +1,3 @@
-interface TracksExplorerProps {
+export interface TracksExplorerProps {
   isValidSession: () => boolean
 }
-
-export default TracksExplorerProps

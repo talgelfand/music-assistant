@@ -1,19 +1,17 @@
-import React, { useEffect } from "react"
-import RedirectProps from "./RedirectPage.types"
-import { getParamValues } from "../../utils/functions"
-import { setUser } from "../../redux/actions"
-import { connect } from "react-redux"
+import React, { useEffect } from 'react'
+import { RedirectPageProps } from './RedirectPage.types'
+import { getParamValues } from '../../utils/functions'
+import { fetchData } from '../../utils/api'
 
-const RedirectPage: React.FC<RedirectProps> = ({
+const RedirectPage: React.FC<RedirectPageProps> = ({
   setExpiryTime,
   history,
   location,
-  setUser,
 }) => {
   useEffect(() => {
     try {
-      if (location.hash === "") {
-        return history.push("/dashboard")
+      if (location.hash === '') {
+        return history.push('/dashboard')
       }
 
       const access_token = getParamValues(location.hash)
@@ -21,27 +19,25 @@ const RedirectPage: React.FC<RedirectProps> = ({
       // @ts-ignore
       const expiryTime = new Date().getTime() + access_token.expires_in * 1000 // when to renew token
 
-      localStorage.setItem("params", JSON.stringify(access_token))
-      localStorage.setItem("expiry_time", expiryTime.toString())
+      localStorage.setItem('params', JSON.stringify(access_token))
+      localStorage.setItem('expiry_time', expiryTime.toString())
 
-      setUser()
+      /* Save data about current user */
+      const getCurrentUser = async () => {
+        const user = await fetchData('https://api.spotify.com/v1/me')
+        localStorage.setItem('current_user', user.id)
+      }
+
+      getCurrentUser()
 
       setExpiryTime(expiryTime)
-      history.push("/dashboard")
+      history.push('/dashboard')
     } catch (error) {
-      history.push("/")
+      history.push('/')
     }
   }, [])
 
   return null
 }
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setUser: () => {
-      dispatch(setUser())
-    },
-  }
-}
-
-export default connect(mapDispatchToProps)(RedirectPage)
+export default RedirectPage

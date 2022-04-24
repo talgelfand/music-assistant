@@ -1,5 +1,3 @@
-interface HomeProps {
+export interface HomeProps {
   isValidSession: () => boolean
 }
-
-export default HomeProps

@@ -1,8 +1,9 @@
-import React, { ChangeEvent, useEffect } from "react"
+import React, { ChangeEvent } from 'react'
 import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   NumberDecrementStepper,
@@ -10,33 +11,36 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-} from "@chakra-ui/react"
-import { useState } from "react"
-import { fetchData } from "../../utils/api"
-import { setPlaylist } from "../../redux/actions"
-import { connect } from "react-redux"
-import PlaylistFormProps from "./PlaylistForm.types"
-import CheckboxList from "../CheckboxList"
-import SliderList from "../SliderList"
-import { useHistory } from "react-router-dom"
-import { v4 as uuid } from "uuid"
-import { useToast } from "@chakra-ui/react"
+} from '@chakra-ui/react'
+import { useState } from 'react'
+import { fetchData } from '../../utils/api'
+import { setPlaylist } from '../../redux/actions'
+import { connect } from 'react-redux'
+import { PlaylistFormProps } from './PlaylistForm.types'
+import CheckboxList from '../CheckboxList'
+import SliderList from '../SliderList'
+import { useHistory } from 'react-router-dom'
+import { v4 as uuid } from 'uuid'
+import { useToast } from '@chakra-ui/react'
 import {
   addPlaylistToDatabase,
   filterTracksArray,
   generatePlaylist,
-} from "../../helpers"
+} from '../../helpers'
 
 const PlaylistForm: React.FC<PlaylistFormProps> = ({
   playlists,
   setPlaylist,
 }) => {
-  const [currentUser, setCurrentUser] = useState({} as any)
+  const [currentUser, setCurrentUser] = useState(
+    localStorage.getItem('current_user')!
+  )
 
-  const [artist, setArtist] = useState("")
-  const [track, setTrack] = useState("")
-  const [artistId, setArtistId] = useState("")
-  const [trackId, setTrackId] = useState("")
+  const [name, setName] = useState('')
+  const [artist, setArtist] = useState('')
+  const [track, setTrack] = useState('')
+  const [artistId, setArtistId] = useState('')
+  const [trackId, setTrackId] = useState('')
   const [genres, setGenres] = useState([] as any)
   const [features, setFeatures] = useState({
     acousticness: 50,
@@ -49,15 +53,6 @@ const PlaylistForm: React.FC<PlaylistFormProps> = ({
 
   const history = useHistory()
   const toast = useToast()
-
-  useEffect(() => {
-    const fetchTrackData = async () => {
-      const result = await fetchData("https://api.spotify.com/v1/me")
-      setCurrentUser(result)
-    }
-
-    fetchTrackData()
-  }, [])
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -98,9 +93,7 @@ const PlaylistForm: React.FC<PlaylistFormProps> = ({
       )
 
       const playlistId = uuid()
-      const playlistName = JSON.stringify(new Date().toLocaleString())
-
-      console.log("Tracks", generatedPlaylist.tracks)
+      const playlistName = name || JSON.stringify(new Date().toLocaleString())
 
       setPlaylist(
         playlistId,
@@ -109,26 +102,28 @@ const PlaylistForm: React.FC<PlaylistFormProps> = ({
       )
 
       addPlaylistToDatabase(
-        currentUser.id,
+        currentUser,
         playlistId,
         playlistName,
         generatedPlaylist.tracks
       )
 
-      toast({
-        title: "Playlist created.",
-        description: "The playlist is added to your playlists list",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      })
+      setTimeout(() => {
+        toast({
+          title: 'Playlist created.',
+          description: 'The playlist is added to your playlists list',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
 
-      history.push(`/playlist/${playlistId}`)
+        history.push(`/playlist/${playlistId}`)
+      }, 1000)
     } catch {
       toast({
-        title: "Playlist cannot be created.",
-        description: "Please check your input data.",
-        status: "error",
+        title: 'Playlist cannot be created.',
+        description: 'Please check your input data.',
+        status: 'error',
         duration: 5000,
         isClosable: true,
       })
@@ -138,6 +133,11 @@ const PlaylistForm: React.FC<PlaylistFormProps> = ({
   return (
     <Box width="80%" display="block" margin="auto" marginTop="40px">
       <form action="submit" onSubmit={handleGeneration}>
+        <FormControl marginTop="20px">
+          <FormLabel>Playlist name:</FormLabel>
+          <Input onChange={(e) => handleChange(e, setName)} />
+          <FormHelperText>Leave blank to autogenerate the name</FormHelperText>
+        </FormControl>
         <FormControl isRequired marginTop="20px">
           <FormLabel>Example artist:</FormLabel>
           <Input onChange={(e) => handleChange(e, setArtist)} required />
@@ -146,8 +146,10 @@ const PlaylistForm: React.FC<PlaylistFormProps> = ({
           <FormLabel>Example track:</FormLabel>
           <Input onChange={(e) => handleChange(e, setTrack)} required />
         </FormControl>
+        {/* List of options  */}
         <CheckboxList data={genres} setData={setGenres} />
         <SliderList features={features} setFeatures={setFeatures} />
+        {/* Number of tracks */}
         <FormControl marginTop="20px">
           <FormLabel>Maximum amount of tracks</FormLabel>
           <NumberInput
@@ -187,7 +189,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setPlaylist: (id: any, playlist: any, name: any) => {
+    setPlaylist: (id: string, playlist: any, name: any) => {
       dispatch(setPlaylist(id, playlist, name))
     },
   }

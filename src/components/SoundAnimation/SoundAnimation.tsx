@@ -1,9 +1,8 @@
-import React from "react"
-import SoundAnimationProps from "./SoundAnimation.types"
-import SoundWave from "./lottie-sound-wave.json"
-import Lottie from "react-lottie"
+import React from 'react'
+import SoundWave from './lottie-sound-wave.json'
+import Lottie from 'react-lottie'
 
-const SoundAnimation: React.FC<SoundAnimationProps> = () => {
+const SoundAnimation: React.FC = () => {
   const animationOptions = {
     loop: true,
     autoplay: true,
@@ -15,7 +14,7 @@ const SoundAnimation: React.FC<SoundAnimationProps> = () => {
       width={600}
       height={300}
       options={animationOptions}
-      style={{ marginTop: "100px" }}
+      style={{ marginTop: '100px' }}
     />
   )
 }

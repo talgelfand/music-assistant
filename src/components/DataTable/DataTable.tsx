@@ -1,7 +1,7 @@
-import React from "react"
-import DataTableProps from "./DataTable.types"
-import * as Styled from "./DataTable.style"
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table"
+import React from 'react'
+import { DataTableProps } from './DataTable.types'
+import * as Styled from './DataTable.style'
+import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/table'
 
 const DataTable: React.FC<DataTableProps> = ({
   danceability,

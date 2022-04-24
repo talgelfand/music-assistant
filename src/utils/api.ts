@@ -1,11 +1,6 @@
-import axios from "axios"
-import { setAuthHeader } from "./functions"
-
-interface PostData {
-  name: string
-  description: string
-  public: boolean
-}
+import axios from 'axios'
+import { PostData } from './api.types'
+import { setAuthHeader } from './functions'
 
 export const fetchData = async (url: string) => {
   setAuthHeader()

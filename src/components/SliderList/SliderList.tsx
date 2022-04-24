@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 import {
   Box,
   Flex,
@@ -10,9 +10,9 @@ import {
   SliderTrack,
   Spacer,
   Text,
-} from "@chakra-ui/react"
-import { MdGraphicEq } from "react-icons/md"
-import SliderListProps from "./SliderList.types"
+} from '@chakra-ui/react'
+import { MdGraphicEq } from 'react-icons/md'
+import { SliderListProps } from './SliderList.types'
 
 const SliderList: React.FC<SliderListProps> = ({ features, setFeatures }) => {
   return (

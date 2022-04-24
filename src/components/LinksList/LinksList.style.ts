@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const Item = styled.div`
   transition: ease-in all 0.3s;

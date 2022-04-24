@@ -1,3 +1,3 @@
-interface NavbarProps {}
-
-export default NavbarProps
+export interface NavbarProps {
+  isValidSession: () => boolean
+}

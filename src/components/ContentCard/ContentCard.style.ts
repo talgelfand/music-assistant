@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { Link as RouterLink } from "react-router-dom"
+import styled from 'styled-components'
+import { Link as RouterLink } from 'react-router-dom'
 
 export const Card = styled.div`
   margin-top: 30px;
@@ -7,7 +7,7 @@ export const Card = styled.div`
 
 export const CardWrapper = styled.div`
   display: grid;
-  grid-template-columns: 200px 710px;
+  grid-template-columns: 200px 770px;
 `
 
 export const Link = styled.div`

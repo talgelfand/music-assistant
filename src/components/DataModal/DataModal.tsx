@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 import {
   Modal,
   ModalOverlay,
@@ -7,12 +7,12 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from "@chakra-ui/react"
-import { fetchData } from "../../utils/api"
-import DataTable from "../DataTable"
-import RangeGroup from "../RangeGroup"
-import DataModalProps from "./DataModal.types"
-import LoadingSpinner from "../LoadingSpinner"
+} from '@chakra-ui/react'
+import { fetchData } from '../../utils/api'
+import DataTable from '../DataTable'
+import RangeGroup from '../RangeGroup'
+import { DataModalProps } from './DataModal.types'
+import LoadingSpinner from '../LoadingSpinner'
 
 const DataModal: React.FC<DataModalProps> = ({
   trackId,

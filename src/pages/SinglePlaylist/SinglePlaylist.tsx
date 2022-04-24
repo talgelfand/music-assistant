@@ -1,10 +1,10 @@
-import React from "react"
-import GeneratedPlaylist from "../../components/GeneratedPlaylist"
+import React from 'react'
+import { Redirect } from 'react-router-dom'
+import GeneratedPlaylist from '../../components/GeneratedPlaylist'
+import { SinglePlaylistProps } from './SinglePlaylist.types'
 
-export interface SinglePlaylistProps {}
-
-const SinglePlaylist: React.FC<SinglePlaylistProps> = () => {
-  return <GeneratedPlaylist />
+const SinglePlaylist: React.FC<SinglePlaylistProps> = ({ isValidSession }) => {
+  return <>{isValidSession() ? <GeneratedPlaylist /> : <Redirect to="/" />}</>
 }
 
 export default SinglePlaylist

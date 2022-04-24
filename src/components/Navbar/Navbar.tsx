@@ -1,68 +1,53 @@
-import {
-  Box,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  useColorModeValue,
-  MenuDivider,
-} from "@chakra-ui/react"
-import { ChevronDownIcon } from "@chakra-ui/icons"
-import { useEffect, useState } from "react"
-import { fetchData } from "../../utils/api"
-import * as Styled from "./Navbar.style"
-import Player from "../Player"
-import { Link } from "react-router-dom"
-import NavbarProps from "./Navbar.types"
+import { useState } from 'react'
+import { Box, Button, useColorModeValue, Avatar } from '@chakra-ui/react'
+import * as Styled from './Navbar.style'
+import Player from '../Player'
+import { Redirect } from 'react-router-dom'
+import { NavbarProps } from './Navbar.types'
+import { FaHouseDamage } from 'react-icons/fa'
 
-const Navbar: React.FC<NavbarProps> = () => {
-  const [currentUser, setCurrentUser] = useState({} as any)
-
-  useEffect(() => {
-    const fetchTrackData = async () => {
-      const result = await fetchData("https://api.spotify.com/v1/me")
-      setCurrentUser(result)
-    }
-
-    fetchTrackData()
-  }, [])
-
-  return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-      <Styled.Navbar>
-        <Styled.StyledLink to="/tracks-explorer" color="teal.700">
-          Analyse a track
-        </Styled.StyledLink>
-        <Styled.StyledLink to="/artists-explorer" color="teal.700">
-          Explore an artist
-        </Styled.StyledLink>
-        <Styled.StyledLink to="/create-playlist" color="teal.700">
-          Create a playlist
-        </Styled.StyledLink>
-        <Styled.PlayerContainer>{<Player /> || null}</Styled.PlayerContainer>
-        <Menu>
-          <MenuButton
-            as={Button}
-            rightIcon={<ChevronDownIcon />}
-            colorScheme="teal"
-            color="white"
-          >
-            {currentUser.display_name}
-          </MenuButton>
-          <MenuList>
-            <MenuItem>Favourite tracks</MenuItem>
-            <MenuItem>Favourite artists</MenuItem>
-            <MenuItem>
-              <Link to="/my-playlists">My playlists</Link>
-            </MenuItem>
-            <MenuDivider />
-            <MenuItem onClick={() => localStorage.clear()}>Logout</MenuItem>
-          </MenuList>
-        </Menu>
-      </Styled.Navbar>
-    </Box>
+const Navbar: React.FC<NavbarProps> = ({ isValidSession }) => {
+  const [currentUser, setCurrentUser] = useState(
+    localStorage.getItem('current_user')!
   )
+
+  const logout = () => {
+    const expiryTime = new Date().getTime()
+
+    localStorage.setItem('expiry_time', expiryTime.toString())
+    window.location.reload()
+  }
+
+  const NavbarComponent = () => {
+    return (
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+        <Styled.Navbar>
+          <Styled.StyledLink to="/">
+            <FaHouseDamage />
+          </Styled.StyledLink>
+          <Styled.StyledLink to="/tracks-explorer" color="teal.700">
+            Analyse a track
+          </Styled.StyledLink>
+          <Styled.StyledLink to="/artists-explorer" color="teal.700">
+            Explore an artist
+          </Styled.StyledLink>
+          <Styled.StyledLink to="/playlist-generator" color="teal.700">
+            Create a playlist
+          </Styled.StyledLink>
+          <Styled.StyledLink to="/my-playlists" color="teal.700">
+            My playlists
+          </Styled.StyledLink>
+          <Styled.PlayerContainer>{<Player /> || null}</Styled.PlayerContainer>
+          <Avatar name={currentUser} bgColor="teal.900" color="white" />
+          <Button variant="outline" colorScheme="teal" onClick={logout}>
+            Logout
+          </Button>
+        </Styled.Navbar>
+      </Box>
+    )
+  }
+
+  return <>{isValidSession() ? <NavbarComponent /> : <Redirect to="/" />}</>
 }
 
 export default Navbar

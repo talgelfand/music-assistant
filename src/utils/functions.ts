@@ -1,11 +1,11 @@
-import axios from "axios"
+import axios from 'axios'
 
-export const getParamValues = (url: any) => {
+export const getParamValues = (url: string) => {
   return url
     .slice(1)
-    .split("&")
-    .reduce((prev: any, curr: any) => {
-      const [title, value] = curr.split("=")
+    .split('&')
+    .reduce((prev: any, curr: string) => {
+      const [title, value] = curr.split('=')
       prev[title] = value
       return prev
     }, {})
@@ -13,13 +13,13 @@ export const getParamValues = (url: any) => {
 
 export const setAuthHeader = () => {
   try {
-    const params = JSON.parse(localStorage.getItem("params")!)
+    const params = JSON.parse(localStorage.getItem('params')!)
     if (params) {
       axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${params.access_token}`
     }
   } catch (error) {
-    console.log("Error setting auth", error)
+    console.log('Error setting auth', error)
   }
 }

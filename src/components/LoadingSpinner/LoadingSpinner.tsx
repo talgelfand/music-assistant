@@ -1,11 +1,9 @@
-import React from "react"
-import SoundWave from "./sound-wave-loading.json"
-import Lottie from "react-lottie"
-import * as Styled from "./LoadingSpinner.style"
+import React from 'react'
+import SoundWave from './sound-wave-loading.json'
+import Lottie from 'react-lottie'
+import * as Styled from './LoadingSpinner.style'
 
-export interface LoadingSpinnerProps {}
-
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = () => {
+const LoadingSpinner: React.FC = () => {
   const animationOptions = {
     loop: true,
     autoplay: true,

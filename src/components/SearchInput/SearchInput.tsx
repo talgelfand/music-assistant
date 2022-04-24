@@ -1,10 +1,10 @@
-import React, { ChangeEvent, useState } from "react"
-import SearchInputProps from "./SearchInput.types"
-import { fetchData } from "../../utils/api"
-import * as Styled from "./SearchInput.style"
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/input"
-import { SearchIcon } from "@chakra-ui/icons"
-import LoadingSpinner from "../LoadingSpinner"
+import React, { ChangeEvent, useState } from 'react'
+import { SearchInputProps } from './SearchInput.types'
+import { fetchData } from '../../utils/api'
+import * as Styled from './SearchInput.style'
+import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input'
+import { SearchIcon } from '@chakra-ui/icons'
+import LoadingSpinner from '../LoadingSpinner'
 
 const SearchInput: React.FC<SearchInputProps> = ({
   placeholder,
@@ -12,7 +12,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   setData,
   result,
 }) => {
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +31,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
       )}&type=${searchTerm}`
     )
 
-    if (searchTerm === "track") {
+    if (searchTerm === 'track') {
       setData(result.tracks.items)
     } else {
       setData(result.artists.items)

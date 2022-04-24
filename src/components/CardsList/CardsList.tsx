@@ -1,6 +1,6 @@
-import React from "react"
-import CardsListProps from "./CardsList.types"
-import ContentCard from "../ContentCard"
+import React from 'react'
+import { CardsListProps } from './CardsList.types'
+import ContentCard from '../ContentCard'
 
 const CardsList: React.FC<CardsListProps> = ({
   searchItems,
@@ -12,7 +12,7 @@ const CardsList: React.FC<CardsListProps> = ({
     let genresList: string[] = []
 
     item[multipleValuesProperty].forEach((arrayItem: any) => {
-      if (multipleValuesProperty === "genres") {
+      if (multipleValuesProperty === 'genres') {
         artistsList.push(arrayItem)
       } else {
         genresList.push(arrayItem.name)
@@ -23,18 +23,18 @@ const CardsList: React.FC<CardsListProps> = ({
       <ContentCard
         key={item.id}
         title={item.name}
-        subtitle={artistsList.join(", ") || genresList.join(", ")}
+        subtitle={artistsList.join(', ') || genresList.join(', ')}
         image={
           fetchedFromDatabase
             ? item.image
-            : multipleValuesProperty === "artists"
+            : multipleValuesProperty === 'artists'
             ? item.album.images[0]?.url
             : item.images[0]?.url
         }
         url={
           fetchedFromDatabase ? item.linkToSpotify : item.external_urls.spotify
         }
-        content={multipleValuesProperty === "artists" ? "track" : "artist"}
+        content={multipleValuesProperty === 'artists' ? 'track' : 'artist'}
         {...item}
       />
     )

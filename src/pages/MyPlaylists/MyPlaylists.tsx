@@ -1,16 +1,10 @@
-import React from "react"
-import FilterPlaylists from "../../components/FilterPlaylists"
-import Playlists from "../../components/Playlists"
+import React from 'react'
+import { Redirect } from 'react-router-dom'
+import Playlists from '../../components/Playlists'
+import { MyPlaylistsProps } from './MyPlaylists.types'
 
-export interface MyPlaylistsProps {}
-
-const MyPlaylists: React.FC<MyPlaylistsProps> = () => {
-  return (
-    <>
-      {/* <FilterPlaylists /> */}
-      <Playlists />
-    </>
-  )
+const MyPlaylists: React.FC<MyPlaylistsProps> = ({ isValidSession }) => {
+  return <>{isValidSession() ? <Playlists /> : <Redirect to="/" />}</>
 }
 
 export default MyPlaylists

@@ -1,10 +1,9 @@
-import React from "react"
-import { Redirect } from "react-router-dom"
-import HomeProps from "./Home.types"
-import { Typography } from "@material-ui/core"
-import SoundAnimation from "../../components/SoundAnimation"
-import { Heading } from "@chakra-ui/layout"
-import { Button } from "@chakra-ui/react"
+import React from 'react'
+import { Redirect } from 'react-router-dom'
+import { HomeProps } from './Home.types'
+import SoundAnimation from '../../components/SoundAnimation'
+import { Heading } from '@chakra-ui/layout'
+import { Button } from '@chakra-ui/react'
 
 const Home: React.FC<HomeProps> = ({ isValidSession }) => {
   const {
@@ -14,7 +13,7 @@ const Home: React.FC<HomeProps> = ({ isValidSession }) => {
   } = process.env
 
   const scope =
-    "streaming user-read-private user-read-email user-library-read user-library-modify playlist-modify-private playlist-read-private user-read-playback-state user-modify-playback-state"
+    'streaming user-read-private user-read-email user-library-read user-library-modify playlist-modify-private playlist-read-private user-read-playback-state user-modify-playback-state'
 
   const handleLogin = () => {
     window.location.href = `${REACT_APP_AUTHORIZE_URL}?client_id=${REACT_APP_CLIENT_ID}&redirect_uri=${REACT_APP_REDIRECT_URL}&response_type=token&show_dialog=true&scope=${encodeURIComponent(
@@ -28,7 +27,6 @@ const Home: React.FC<HomeProps> = ({ isValidSession }) => {
         <Redirect to="/dashboard" />
       ) : (
         <>
-          <Typography variant="h3" align="center"></Typography>
           <Heading fontSize="40px" textAlign="center" marginTop="150px">
             Welcome to your Music Assistant
           </Heading>

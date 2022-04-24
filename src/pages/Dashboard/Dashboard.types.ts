@@ -1,5 +1,3 @@
-interface DashboardProps {
+export interface DashboardProps {
   isValidSession: () => boolean
 }
-
-export default DashboardProps

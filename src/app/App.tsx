@@ -13,7 +13,6 @@ import PlaylistGenerator from '../pages/PlaylistGenerator'
 import MyPlaylists from '../pages/MyPlaylists'
 import Navbar from '../components/Navbar'
 import SinglePlaylist from '../pages/SinglePlaylist'
-import Footer from '../components/Footer'
 
 const App: React.FC = () => {
   const [expiryTime, setExpiryTime] = useState(0)
@@ -108,7 +107,6 @@ const App: React.FC = () => {
                 </Switch>
               </div>
             </Container>
-            <Footer />
           </Router>
         </Provider>
       </ChakraProvider>
